@@ -1,0 +1,65 @@
+﻿<div class="d-flex flex-column flex-shrink-0 bg-dark text-white" style="width: 250px; height: 125vh">
+    <div class="p-3">
+        <h4 class="text-center">Admin</h4>
+    </div>
+    <ul class="nav nav-pills flex-column mb-auto menuSidebar">
+            <li class="nav-item">
+            <a asp-controller="Home" asp-action="Index" class="nav-link text-white active">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#menuChucNang" class="nav-link text-white">
+                    <i class="fas fa-cogs"></i> Chức năng
+                </a>
+                <div class="collapse show" id="menuChucNang">
+                    <ul class="nav flex-column ml-3">
+                        <li>
+                            <a asp-controller="SanPham" asp-action="Index" class="nav-link text-white ">
+                                <i class="fas fa-box"></i> Danh sách thực phẩm
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="KhoHang" asp-action="Index" class="nav-link text-white">
+                                <i class="fas fa-building"></i> Danh sách kho hàng
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="NhanVien" asp-action="Index" class="nav-link text-white">
+                                <i class="fas fa-users"></i> Danh sách nhân viên
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="PhieuNhap" asp-action="Index" class="nav-link text-white">
+                                <i class="fas fa-file-alt"></i> Danh sách phiếu nhập
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="PhieuXuat" asp-action="Index" class="nav-link text-white">
+                                <i class="fas fa-file-alt"></i> Danh sách phiếu xuất
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="KhachHang" asp-action="Index" class="nav-link text-white">
+                                <i class="fas fa-user"></i> Danh sách khách hàng
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="NhaCungCap" asp-action="Index" class="nav-link text-white">
+                                <i class="fas fa-user"></i>Danh sách Nhà Cung Cấp
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+               
+            </li>
+
+        
+            <li>
+                <a asp-controller="" asp-action="" class="nav-link text-white">
+                    <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                </a>
+            </li>
+    </ul>
+</div>

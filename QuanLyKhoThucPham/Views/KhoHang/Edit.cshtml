@@ -1,0 +1,54 @@
+﻿@model QuanLyKhoThucPham.Models.KhoHangModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh sửa</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-route-maKhoHang="@Model.MaKho" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MaKho" />
+            <div class="form-group">
+                <label asp-for="TenKho" class="control-label">Tên kho</label>
+                <input asp-for="TenKho" class="form-control" />
+                <span asp-validation-for="TenKho" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KhoLoaiSP" class="control-label">Loại kho</label>
+                <input asp-for="KhoLoaiSP" class="form-control" />
+                <span asp-validation-for="KhoLoaiSP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="mota" class="control-label">Mô tả</label>
+                <input asp-for="mota" class="form-control" />
+                <span asp-validation-for="mota" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="soluongtong" class="control-label">Số lượng tổng</label>
+                <input asp-for="soluongtong" class="form-control" />
+                <span asp-validation-for="soluongtong" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="soluongtrong" class="control-label">Số lương trống</label>
+                <input asp-for="soluongtrong" class="form-control" />
+                <span asp-validation-for="soluongtrong" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-warning">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,217 @@
+﻿@model QuanLyKhoThucPham.Models.View_Model.ViewModelPhieuNhap
+
+@{
+    ViewData["Title"] = "Tạo Phiếu Nhập";
+}
+
+<center>
+    <h2>@ViewData["Title"]</h2>
+</center>
+
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="PhieuNhap.NgayNhap">Ngày Nhập</label>
+        <input asp-for="PhieuNhap.NgayNhap" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")   />
+        <span asp-validation-for="PhieuNhap.NgayNhap" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhieuNhap.MaKho">Kho Nhập</label>
+        <select id="selectKho" asp-for="PhieuNhap.MaKho" class="form-control" asp-items="@(new SelectList(Model.DSKhoHang, "MaKho", "TenKho")) ">
+            <option value="">Chọn Kho</option>
+        </select>
+        <span asp-validation-for="PhieuNhap.MaKho" class="text-danger"></span>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="PhieuNhap.MaNhanVien">Nhân Viên</label>
+        <select id="selectNhanVien" asp-for="PhieuNhap.MaNhanVien" class="form-control" asp-items="@(new SelectList(Model.DSNhanVien, "MaNhanVien", "HoTen"))">
+            <option value="">Chọn Nhân Viên</option>
+        </select>
+        <span asp-validation-for="PhieuNhap.MaNhanVien" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhieuNhap.MaNhaCungCap">Nhà Cung Cấp</label>
+        <select id="selectNhaCungCap" asp-for="PhieuNhap.MaNhaCungCap" class="form-control">
+            <option value="">Chọn Nhà Cung Cấp</option>
+
+            @foreach (var item in Model.DSNhaCungCap)
+            {
+                <option value="@item.MaNhaCungCap" data-diachi="@item.DiaChi">@item.TenNhaCungCap</option>
+            }
+        </select>
+        <span asp-validation-for="PhieuNhap.MaNhaCungCap" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Địa Chỉ</label>
+        <input id="diaChiNhaCungCap" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhieuNhap.Ghichu" class="control-label"></label>
+        <input asp-for="@Model.PhieuNhap.Ghichu" class="form-control" />
+        <span asp-validation-for="@Model.PhieuNhap.Ghichu" class="text-danger"></span>
+    </div>
+
+    <h3>Danh Sách Sản Phẩm</h3>
+    <div style ="height: 200px; overflow: auto">
+            <table class="table" id="tableSanPham">
+                <thead>
+                    <tr>
+                        <th>Sản Phẩm</th>
+                        <th>Đơn Giá</th>
+                        <th>Số Lượng</th>
+                        <th>Tổng Tiền</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody style="overscroll-behavior-y: auto">
+
+                </tbody>
+            </table>
+
+    </div>
+    <button type="button" class="btn btn-success" onclick="addRow()">Thêm sản phẩm</button>
+    <div class="form-group">
+        <label>Tổng tiền phiếu nhập</label>
+        <input id="tongTien" name="PhieuNhap.TongTien" class="form-control" value="" readonly />
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a asp-action="Index" class="btn btn-secondary btn-lg">Thoát</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#selectedSanPham").select2({ width: '100%' });
+            $("#selectNhaCungCap").select2({ width: '100%' });
+            $("#selectNhanVien").select2({ width: '100%' });
+            $("#selectKho").select2({ width: '100%' });
+        });
+
+        $(document).ready(function () {
+            $("#selectNhaCungCap").change(function () {
+                var selectedOption = $(this).find(":selected");
+                $("#diaChiNhaCungCap").val(selectedOption.data("diachi") || "");
+            });
+        });
+        //Thêm sự kiện change cho selectKho để gọi API và cập nhật danh sách sản phẩm theo mã kho
+        var danhSachSanPham = []; 
+
+        $(document).ready(function () {
+            $("#selectKho").change(function () {
+                var maKho = $(this).val();
+                if (!maKho) {
+                    alert("Vui lòng chọn kho trước!");
+                    return;
+                }
+
+                $.ajax({
+                    url: "/PhieuNhap/GetSanPhamByKho",
+                    type: "GET",
+                    data: { maKho: maKho },
+                    success: function (data) {
+                        danhSachSanPham = data; 
+                        // alert("Đã cập nhật danh sách sản phẩm!");
+                    },
+                    error: function () {
+                        alert("Không thể tải danh sách sản phẩm!");
+                    }
+                });
+            });
+        });
+
+        function updateSanPham(select) {
+            var row = select.closest("tr");
+            var donGiaInput = row.querySelector("input[name$='DonGia']");
+            var tongTienInput = row.querySelector("input[name$='ThanhTien']");
+            var selectedOption = select.options[select.selectedIndex];
+            donGiaInput.value = selectedOption.getAttribute("data-dongia");
+            updateTongTien(row.querySelector("input[name$='SoLuong']"));
+        }
+
+        function updateTongTien(input) {
+            var table = document.getElementById("tableSanPham").getElementsByTagName('tbody')[0];
+            var index = table.rows.length;
+            var row = input.closest("tr");
+            var donGia = parseFloat(row.querySelector("input[name$='DonGia']").value) || 0;
+            var soLuong = parseInt(input.value) || 0;
+            var tongTien = donGia * soLuong;
+            row.querySelector("input[name$='ThanhTien']").value = tongTien;
+            updateTongTienPhieu();
+        }
+        function updateTongTienPhieu() {
+            var total = 0;
+            document.querySelectorAll("#tableSanPham tbody tr").forEach(row => {
+                total += parseFloat(row.querySelector("input[name$='ThanhTien']").value) || 0;
+            });
+            document.getElementById("tongTien").value = total;
+        }
+
+        function addRow() {
+            if (danhSachSanPham.length === 0) {
+                alert("Vui lòng chọn kho trước!");
+                return;
+            }
+
+            var table = document.getElementById("tableSanPham").getElementsByTagName('tbody')[0];
+            var index = table.rows.length;
+
+            var selectOptions = danhSachSanPham.map(sp =>
+                `<option value="${sp.maSP}" data-dongia="${sp.donGiaNhap}">${sp.tenSP}</option>`
+            ).join("");
+
+            var template = `
+                <tr>
+                    <td>
+                        <select class="form-control selectSanPham" name="PhieuNhapChiTiet[${index}].MaSP" onchange="updateSanPham(this)">
+                            <option value="">Chọn sản phẩm</option>
+                            ${selectOptions}
+                        </select>
+                    </td>
+                    <td><input name="PhieuNhapChiTiet[${index}].DonGia" class="form-control" readonly /></td>
+                    <td><input name="PhieuNhapChiTiet[${index}].SoLuong" class="form-control" type="number" oninput="updateTongTien(this)" value="1" /></td>
+                    <td><input name="PhieuNhapChiTiet[${index}].ThanhTien" class="form-control" readonly /></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Xóa</button>
+                    </td>
+                </tr>
+            `;
+
+            table.insertAdjacentHTML('beforeend', template);
+            $(".selectSanPham").select2({ width: '100%' }); // Cập nhật Select2 nếu đang dùng
+        }
+
+        function removeRow(button) {
+            var row = button.closest("tr");
+            row.remove();
+            updateTongTienPhieu();
+        }
+    </script>
+}
+
+<style>
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 40px !important;
+    }
+
+    .form-control {
+        max-width: none;
+    }
+
+    .form-group {
+        margin: 10px 0px;
+    }
+</style>

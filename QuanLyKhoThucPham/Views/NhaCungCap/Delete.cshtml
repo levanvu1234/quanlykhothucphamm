@@ -1,0 +1,44 @@
+﻿@model QuanLyKhoThucPham.Models.NhaCungCapModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Xóa Thông Tin</h1>
+
+
+<div>
+    <h4>NhaCungCap</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenNhaCungCap)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenNhaCungCap)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoDienThoai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoDienThoai)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="MaNhaCungCap" />
+
+        <div style="margin-top: 20px; display: flex; gap: 10px; align-items: center;">
+            <button type="submit" style="background-color: red; color: white; padding: 10px 15px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                Xác nhận xóa
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+
+        </div>
+    </form>

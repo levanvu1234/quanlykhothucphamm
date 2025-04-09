@@ -1,0 +1,105 @@
+﻿@model PaginatedList<QuanLyKhoThucPham.Models.KhoHangModel>
+
+@{
+    ViewData["Title"] = "Index";
+    int stt = TempData["stt"] != null ? (int)TempData["stt"] - Model.Count : 1;
+}
+
+<h1>Danh sách kho hàng</h1>
+<form asp-controller="KhoHang" asp-action="Index">
+    <div class="input-group">
+        <input class="form-control" type="text" name="SearchString" placeholder="Tìm kiếm tên kho hàng..." aria-describedby="btnNavbarSearch" />
+        <button class="btn btn-primary" type="submit" /> Tìm kiếm</button>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>STT</a>
+            </th>
+            <th>
+                <a>Tên kho</a>
+            </th>
+            <th>
+                <a>loại kho</a>
+            </th>
+            <th>
+                <a>Mô tả</a>
+            </th>
+            <th>
+                <a>Số lượng tổng</a>
+            </th>
+            <th>
+                <a>Số lượng trống</a>
+            </th>
+            <td>
+                <a asp-action="Create" class="btn btn-primary">Tạo mới</a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model) {
+        <tr>
+            <td>
+                @stt
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenKho)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KhoLoaiSP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.mota)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.soluongtong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.soluongtrong)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.MaKho" class="btn btn-warning">Chỉnh sửa</a> 
+                    <a asp-action="Details" asp-route-id="@item.MaKho" class="btn btn-info">Chỉ tiết</a> 
+                    <a asp-action="Delete" asp-route-id="@item.MaKho" class="btn btn-danger">Xóa</a>
+            </td>
+        </tr>
+        stt++;
+}
+    </tbody>
+</table>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-searchString="@ViewData["searchString"]"
+   class="btn btn-default @prevDisabled">
+    Trước 
+</a>
+<!-- Hiển thị danh sách số trang -->
+@for (int i = 1; i <= Model.TotalPages; i++)
+{
+    if (i == Model.PageIndex)
+    {
+        <span><strong>@i</strong></span> <!-- Trang hiện tại sẽ được in đậm -->
+    }
+    else
+    {
+        <a asp-action="Index" asp-route-pageNumber="@i">@i</a>
+    }
+}
+
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-searchString="@ViewData["searchString"]"
+   class="btn btn-default @nextDisabled">
+    Sau
+</a>
+
+

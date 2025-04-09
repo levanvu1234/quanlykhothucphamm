@@ -1,0 +1,38 @@
+﻿/* style.css */
+
+body {
+    background-color: #f8f9fa; /* Màu nền nhạt */
+}
+
+.login-container {
+    width: 400px; /* Độ rộng container */
+    margin: 100px auto; /* Canh giữa container */
+    background-color: #fff; /* Màu nền container */
+    padding: 30px; /* Khoảng cách nội dung */
+    border-radius: 10px; /* Bo góc */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Tạo bóng đổ */
+}
+
+    .login-container h2 {
+        text-align: center; /* Canh giữa tiêu đề */
+        margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+        color: #007bff; /* Màu tiêu đề */
+    }
+
+.form-control {
+    margin-bottom: 15px; /* Khoảng cách giữa các input */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Màu nút */
+    border-color: #007bff; /* Màu viền nút */
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Màu nút khi hover */
+        border-color: #0056b3; /* Màu viền nút khi hover */
+    }
+
+.alert-danger {
+    margin-top: 15px; /* Khoảng cách trên alert */
+}

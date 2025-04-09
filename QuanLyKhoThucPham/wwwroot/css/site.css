@@ -1,0 +1,97 @@
+﻿html {
+  font-size: 14px;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+
+  margin-bottom: 60px;
+  height: 100%;
+}
+
+thead tr {
+    background-color: #f8d775; /* Màu nền vàng nhạt */
+    border: 2px solid #e0b100; /* Viền vàng đậm */
+}
+
+
+thead th {
+    padding: 10px; /* Tạo khoảng cách bên trong */
+    font-weight: bold; /* Làm đậm chữ */
+    text-align: center; /* Căn giữa nội dung */
+    border: 2px solid #e0b100; /* Viền từng ô */
+}
+.btn-tao-moi {
+    background-color: #28a745; /* Màu xanh lá */
+    color: white;
+    border: 1px solid #218838;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.btn-chinh-sua {
+    background-color: #ffc107; /* Màu vàng */
+    color: black;
+    border: 1px solid #e0a800;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+
+.btn-chi-tiet {
+    background-color: #17a2b8; /* Màu xanh dương nhạt */
+    color: white;
+    border: 1px solid #117a8b;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.btn-xoa {
+    background-color: #dc3545; /* Màu đỏ */
+    color: white;
+    border: 1px solid #c82333;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+button {
+    margin: 3px; /* Tạo khoảng cách giữa các nút */
+    cursor: pointer; /* Hiển thị con trỏ khi di chuột vào */
+}
+table {
+    width: 100%; /* Đảm bảo bảng rộng toàn bộ */
+    border-collapse: collapse; /* Loại bỏ khoảng trống giữa các ô */
+}
+
+th, td {
+    padding: 10px; /* Tăng khoảng cách giữa nội dung và viền */
+    text-align: left; /* Căn lề trái cho văn bản */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+}
+
+th {
+    background-color: #d4af37; /* Màu nền vàng cho tiêu đề */
+    font-weight: bold;
+}
+
+td {
+    border-bottom: 1px solid #ddd; /* Thêm đường kẻ ngăn cách hàng */
+}
+
+    /* Căn chỉnh cột chứa nút bấm */
+    td:last-child {
+        text-align: center; /* Căn giữa các nút */
+        white-space: nowrap; /* Giữ các nút trên cùng một dòng */
+    }
+

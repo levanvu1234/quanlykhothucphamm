@@ -1,0 +1,42 @@
+﻿@model QuanLyKhoThucPham.Models.KhachHangModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Chi Tiết Khách Hàng</h1>
+
+<div>
+    <h4>Quanlykhachhang</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenKH)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenKH)
+        </dd>
+      
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+       
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SDT)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SDT)
+        </dd>
+    </dl>
+</div>
+<div style="margin-top: 20px; display: flex; gap: 10px; align-items: center;">
+
+
+    <a asp-action="Index" class="btn btn-secondary">Quay lại</a> 
+    
+   
+</div>
+

@@ -1,0 +1,65 @@
+﻿@model QuanLyKhoThucPham.Models.SanPhamModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Chi tiết</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <a>Mã sản phẩm</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaSP)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Tên sản phẩm</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TenSP)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Mô tả</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MoTa)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Số lượng tồn</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Nhà sản xuất</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NhaSanXuat)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Giá nhập</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DonGiaNhap)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Giá xuất</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DonGiaXuat)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Loại SP</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.KhoHang.KhoLoaiSP)
+        </dd>
+    </dl>
+</div>
+<div class="form-group">
+    <a asp-action="Edit" asp-route-id="@Model?.MaSP" class="btn btn-primary">Chỉnh sửa</a>
+    <a asp-action="Index" class="btn btn-warning">Quay lại</a>
+</div>

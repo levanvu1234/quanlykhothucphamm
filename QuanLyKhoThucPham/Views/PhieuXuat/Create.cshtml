@@ -1,0 +1,210 @@
+﻿@model QuanLyKhoThucPham.Models.View_Model.ViewModelPhieuXuat
+
+@{
+    ViewData["Title"] = "Tạo Phiếu Xuất";
+}
+
+<h2>Tạo Phiếu Xuất</h2>
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="PhieuXuat.NgayXuat">Ngày Nhập</label>
+        <input asp-for="PhieuXuat.NgayXuat" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")   />
+        <span asp-validation-for="PhieuXuat.NgayXuat" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhieuXuat.MaKho">Kho Hàng</label>
+        <select id="selectKho" asp-for="PhieuXuat.MaKho" class="form-control" asp-items="@(new SelectList(Model.DSKhoHang, "MaKho", "TenKho"))">
+            <option value="">Chọn Kho</option>
+        </select>
+        <span asp-validation-for="PhieuXuat.MaKho" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhieuXuat.MaNhanVien">Nhân Viên</label>
+        <select id="selectNhanVien" asp-for="PhieuXuat.MaNhanVien" class="form-control" asp-items="@(new SelectList(Model.DSNhanVien, "MaNhanVien", "HoTen"))">
+            <option value="">Chọn Nhân Viên</option>
+        </select>
+        <span asp-validation-for="PhieuXuat.MaNhanVien" class="text-danger"></span>
+    </div>
+   
+    <div class="form-group">
+        <label asp-for="PhieuXuat.MaKH">Khách hàng</label>
+        <select id="selectKhachHang" asp-for="PhieuXuat.MaKH" class="form-control">
+            <option value="">Chọn Khách hàng</option>
+
+            @foreach (var item in Model.DSKhachHang)
+            {
+                <option value="@item.MaKH" data-diachikh="@item.DiaChi">@item.TenKH</option>
+            }
+        </select>
+        <span asp-validation-for="PhieuXuat.MaKH" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Địa Chỉ</label>
+        <input id="diaChiKhachHang" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhieuXuat.Ghichu" class="control-label"></label>
+        <input asp-for="@Model.PhieuXuat.Ghichu" class="form-control" />
+        <span asp-validation-for="@Model.PhieuXuat.Ghichu" class="text-danger"></span>
+    </div>
+
+    <h3>Danh Sách Sản Phẩm</h3>
+    <table class="table" id="tableSanPham">
+        <thead>
+            <tr>
+                <th>Sản Phẩm</th>
+                <th>Đơn Giá</th>
+                <th>Số Lượng</th>
+                <th>Số Lượng tồn</th>
+                <th>Tổng Tiền</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <button type="button" class="btn btn-success" onclick="addRow()">Thêm sản phẩm</button>
+    <div class="form-group">
+        <label>Tổng tiền phiếu xuất</label>
+        <input id="tongTien" name="PhieuXuat.TongTien" class="form-control" value="" readonly />
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        
+
+    <script>
+        $(document).ready(function () {
+            $("#selectedSanPham").select2({ width: '100%' });
+            $("#selectKhachHang").select2({ width: '100%' });
+            $("#selectNhanVien").select2({ width: '100%' });
+            $("#selectKho").select2({ width: '100%' });
+        });
+
+        $(document).ready(function () {
+            $("#selectKhachHang").change(function () {
+                var selectedOption = $(this).find(":selected");
+                $("#diaChiKhachHang").val(selectedOption.data("diachikh") || "");
+            });
+        });
+
+        var danhSachSanPham = [];
+
+        $(document).ready(function () {
+            $("#selectKho").change(function () {
+                var maKho = $(this).val();
+                if (maKho) {
+                    $.ajax({
+                        url: "/PhieuXuat/GetSanPhamByKho",
+                        type: "GET",
+                        data: { maKho: maKho },
+                        success: function (data) {
+                            danhSachSanPham = data; // Cập nhật biến toàn cục
+                            updateSanPhamOptions(data);
+                        }
+                    });
+                } else {
+                    danhSachSanPham = [];
+                    updateSanPhamOptions([]);
+                }
+            });
+        });
+
+        function updateSanPham(select) {
+            var row = select.closest("tr");
+            var donGiaInput = row.querySelector("input[name$='DonGia']");
+            var soLuongNhapInput = row.querySelector("input[name$='SoLuong']");
+            var tongTienInput = row.querySelector("input[name$='ThanhTien']");
+            var soLuongTonInput = row.querySelector("input[name$='SoLuongTon']");
+            var selectedOption = select.options[select.selectedIndex];
+            var donGia = selectedOption.getAttribute("data-dongia");
+            var soLuongTon = selectedOption.getAttribute("data-soluong"); // Sửa ở đây
+
+            soLuongTonInput.value = soLuongTon;
+            donGiaInput.value = donGia;
+            soLuongNhapInput.value = 1;
+            updateTongTien(soLuongNhapInput);
+        }
+
+        function updateTongTien(input) {
+            var row = input.closest("tr");
+            var donGia = parseFloat(row.querySelector("input[name$='DonGia']").value) || 0;
+            var soLuong = parseInt(input.value) || 0;
+            var tongTien = donGia * soLuong;
+            row.querySelector("input[name$='ThanhTien']").value = tongTien;
+            updateTongTienPhieu();
+        }
+        function updateTongTienPhieu() {
+            var total = 0;
+            document.querySelectorAll("#tableSanPham tbody tr").forEach(row => {
+                total += parseFloat(row.querySelector("input[name$='ThanhTien']").value) || 0;
+            });
+            document.getElementById("tongTien").value = total;
+        }
+        function addRow() {
+            var table = document.getElementById("tableSanPham").getElementsByTagName('tbody')[0];
+            var index = table.rows.length;
+
+            var selectOptions = danhSachSanPham.map(sp =>
+                `<option value="${sp.maSP}" data-dongia="${sp.donGiaXuat}" data-soluong="${sp.soLuong}">${sp.tenSP}</option>`
+            ).join("");
+            var template = `
+                <tr>
+                    <td>
+                        <select class="form-control selectSanPham" name="PhieuXuatChiTiet[${index}].MaSP" onchange="updateSanPham(this)">
+                            <option value="">Chọn sản phẩm</option>
+                            ${selectOptions}
+                        </select>
+                    </td>
+                    <td><input name="PhieuXuatChiTiet[${index}].DonGia" class="form-control" readonly /></td>
+                    <td><input name="PhieuXuatChiTiet[${index}].SoLuong" class="form-control" type="number" oninput="updateTongTien(this)" value="1" /></td>
+                    <td><input name="PhieuXuatChiTiet[${index}].SoLuongTon" class="form-control" readonly /></td>
+                    <td><input name="PhieuXuatChiTiet[${index}].ThanhTien" class="form-control" readonly /></td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeRow(this)">Xóa</button>
+                    </td>
+                </tr>
+            `;
+
+            table.insertAdjacentHTML('beforeend', template);
+
+            $(table.rows[table.rows.length - 1]).find("select").select2({ width: '100%' });
+            updateTongTienPhieu();
+        }
+
+        function removeRow(button) {
+            var row = button.closest("tr");
+            row.remove();
+            updateTongTienPhieu();
+        }
+    </script> 
+}
+
+<style>
+    .select2-container .select2-selection--single {
+        height: 40px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 40px !important;
+    }
+
+    .form-control {
+        max-width: none;
+    }
+
+    .form-group {
+        margin: 10px 0px;
+    }
+
+</style>
+

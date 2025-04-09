@@ -1,0 +1,74 @@
+﻿@model QuanLyKhoThucPham.Models.PhieuXuatModel;
+
+
+@{
+    ViewData["Title"] = "Xóa Phiếu Xuất";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center text-primary">Xóa Phiếu Xuất</h2>
+
+    <div class="card shadow-sm p-4">
+        <div class="row mb-3">
+            <div class="col-sm-3 fw-bold">Ngày xuất:</div>
+            <div class="col-sm-9">@Html.DisplayFor(model => model.NgayXuat)</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3 fw-bold">Khách hàng:</div>
+            <div class="col-sm-9">@Html.DisplayFor(model => model.KhachHang.TenKH)</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3 fw-bold">Khách hàng:</div>
+            <div class="col-sm-9">@Html.DisplayFor(model => model.KhachHang.DiaChi)</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3 fw-bold">Khách hàng:</div>
+            <div class="col-sm-9">@Html.DisplayFor(model => model.KhachHang.SDT)</div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-3 fw-bold">Kho:</div>
+            <div class="col-sm-9">@Html.DisplayFor(model => model.KhoHang.TenKho)</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-3 fw-bold">Nhân viên nhập:</div>
+            <div class="col-sm-9">@Html.DisplayFor(model => model.NhanVien.HoTen)</div>
+        </div>
+    </div>
+
+    <h4 class="mt-4 text-success">Chi tiết Phiếu Nhập</h4>
+    <table class="table table-bordered table-hover mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Tổng tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DSChiTietPhieuXuat)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.SanPham.TenSP)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoLuong)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DonGia)</td>
+                    <td>@Html.DisplayFor(modelItem => item.TongTIen)</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="fw-bold bg-light">
+                <td colspan="3" class="text-end">Tổng cộng:</td>
+                <td class="text-danger">@Html.DisplayFor(model => model.TongTien)</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="mt-4 text-center">
+        <form asp-action="Delete" asp-route-maPX="@Model.MaPhieuXuat" method="post" class="d-inline">
+            <button type="submit" class="btn btn-danger px-4">Xóa</button>
+        </form>
+        <a asp-action="Index" class="btn btn-secondary px-4 ms-2">Thoát</a>
+    </div>
+</div>

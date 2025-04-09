@@ -1,0 +1,52 @@
+﻿@model QuanLyKhoThucPham.Models.KhoHangModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>KhoHangModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <a>Tên kho</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TenKho)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Loại kho</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.KhoLoaiSP)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Mô tả</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.mota)
+        </dd>
+
+        <dt class="col-sm-2">
+            <a>Số lượng tổng</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.soluongtong)
+        </dd>
+        <dt class="col-sm-2">
+            <a>Số lượng trống</a>
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.soluongtrong)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MaKho" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

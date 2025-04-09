@@ -1,0 +1,65 @@
+﻿@model QuanLyKhoThucPham.Models.View_Model.ViewModelKhoSanPham
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh Sửa</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-route-maSP="@Model.SanPham.MaSP">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SanPham.MaSP" />
+            <div class="form-group">
+                <label asp-for="SanPham.TenSP" class="control-label">Tên sản phẩm</label>
+                <input asp-for="SanPham.TenSP" class="form-control" />
+                <span asp-validation-for="SanPham.TenSP" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SanPham.MoTa" class="control-label">Mô tả</label>
+                <input asp-for="SanPham.MoTa" class="form-control" />
+                <span asp-validation-for="SanPham.MoTa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SanPham.SoLuong" class="control-label">Số lượng tồn</label>
+                <input asp-for="SanPham.SoLuong" class="form-control" />
+                <span asp-validation-for="SanPham.SoLuong" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SanPham.NhaSanXuat" class="control-label">Nhà sản xuất</label>
+                <input asp-for="SanPham.NhaSanXuat" class="form-control" />
+                <span asp-validation-for="SanPham.NhaSanXuat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SanPham.DonGiaNhap" class="control-label">Đơn giá nhập</label>
+                <input asp-for="SanPham.DonGiaNhap" class="form-control" />
+                <span asp-validation-for="SanPham.DonGiaNhap" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SanPham.DonGiaXuat" class="control-label">Đơn giá xuất</label>
+                <input asp-for="SanPham.DonGiaXuat" class="form-control" />
+                <span asp-validation-for="SanPham.DonGiaXuat" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="SanPham.MaKho">Kho Hàng</label>
+                <select asp-for="SanPham.MaKho" class="form-control" asp-items="@(new SelectList(Model.DSKhoHang, "MaKho", "KhoLoaiSP"))">
+                    <option value="">Chọn Kho Hàng</option>
+                </select>
+                <span asp-validation-for="SanPham.MaKho" class="text-danger"></span>
+            </div>
+            <hr />
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+				<a asp-action="Index" class="btn btn-warning">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

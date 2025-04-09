@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "_LoginLayout";
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<div class="container">
+    <div class="login-container">
+        <h2>Đăng nhập</h2>
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <div class="mb-3">
+                <label for="TaiKhoan" class="form-label">Tài khoản</label>
+                <input type="text" class="form-control" id="TaiKhoan" name="TaiKhoan">
+            </div>
+            <div class="mb-3">
+                <label for="MatKhau" class="form-label">Mật khẩu</label>
+                <input type="password" class="form-control" id="MatKhau" name="MatKhau">
+            </div>
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="GhiNho" name="GhiNho">
+                <label class="form-check-label" for="GhiNho">Ghi nhớ đăng nhập?</label>
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+            </div>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mt-3" role="alert">
+                    @Html.ValidationSummary(false, "")
+                </div>
+            }
+        </form>
+    </div>
+</div>  
